@@ -136,7 +136,7 @@ export default function Archive({ user }) {
         <div className="error-popup">
           <div className="error-popup-content">
             <div className="error-popup-title">⚠️ Confirm Delete</div>
-            <div className="error-popup-message">Delete this letter permanently? It will be backed up, but removed from your archive.</div>
+            <div className="error-popup-message">Are you sure you would like to delete this letter permanently?</div>
             <div className="error-popup-buttons">
               <button
                 className="error-popup-btn"

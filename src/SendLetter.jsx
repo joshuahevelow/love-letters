@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { db } from "./firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import Letter from "./Letter";
 import "./SendLetter.css";
 
 export default function SendLetter({ user }) {
@@ -8,6 +9,7 @@ export default function SendLetter({ user }) {
   const [message, setMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
 
   const recipient = user === "Josh" ? "Avery" : "Josh";
 
@@ -41,6 +43,16 @@ export default function SendLetter({ user }) {
       console.error(err);
       setErrorMessage("Error sending letter. Please try again.");
     }
+  };
+
+  const doShowPreview = async () => {
+    if (!title.trim() || !message.trim()) {
+      setErrorMessage("Please fill in both title and message");
+      return;
+    }
+setErrorMessage("");
+     setShowPreview(true);
+      
   };
 
   return (
@@ -86,11 +98,36 @@ export default function SendLetter({ user }) {
         </div>
 
         <div className="send-letter-button-group">
+          <button 
+            className="send-letter-btn send-letter-preview-btn"
+            onClick={doShowPreview}
+          >
+            Preview
+          </button>
           <button className="send-letter-btn" onClick={sendLetter}>
             Send Letter
           </button>
         </div>
       </div>
+
+      {showPreview && title.trim() && message.trim() && (
+        <Letter
+          letter={{
+            id: "preview",
+            sender: user,
+            recipient,
+            title,
+            message,
+            timestamp: new Date(),
+            opened: false,
+            archived: false,
+          }}
+          onClose={() => setShowPreview(false)}
+          onArchive={() => setShowPreview(false)}
+          isArchived={false}
+          isPreview={true}
+        />
+      )}
     </div>
   );
 }

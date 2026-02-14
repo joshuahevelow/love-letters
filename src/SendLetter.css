@@ -104,11 +104,11 @@
   display: flex;
   gap: 12px;
   margin-top: 20px;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .send-letter-btn {
-  background: #8b7355;
+  background: #4F7942;
   color: white;
   padding: 12px 24px;
   border: none;
@@ -121,12 +121,20 @@
 }
 
 .send-letter-btn:hover {
-  background: #6d5a47;
+  background: #47683d;
   transform: translateY(-2px);
 }
 
 .send-letter-btn:active {
   transform: translateY(0);
+}
+
+.send-letter-preview-btn {
+  background: #8b7355;
+}
+
+.send-letter-preview-btn:hover {
+  background: #6d5a47;
 }
 
 .send-letter-cancel-btn {

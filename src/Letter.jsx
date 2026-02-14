@@ -1,6 +1,6 @@
 import "./Letter.css";
 
-export default function Letter({ letter, onClose, onArchive, isArchived }) {
+export default function Letter({ letter, onClose, onArchive, isArchived, isPreview }) {
   if (!letter) return null;
 
   return (
@@ -11,15 +11,18 @@ export default function Letter({ letter, onClose, onArchive, isArchived }) {
         <button className="close-btn" onClick={onClose}>
           ✕
         </button>
+        {console.log(isPreview)}
 
-        {isArchived ? (
-          <button className="delete-btn-letter" onClick={onArchive}>
-            Delete
-          </button>
-        ) : (
-          <button className="archive-btn" onClick={onArchive}>
-            Archive
-          </button>
+        {!isPreview && (
+          isArchived ? (
+            <button className="delete-btn-letter" onClick={onArchive}>
+              Delete
+            </button>
+          ) : (
+            <button className="archive-btn" onClick={onArchive}>
+              Archive
+            </button>
+          )
         )}
 
         <h2>{letter.title}</h2>
@@ -30,7 +33,9 @@ export default function Letter({ letter, onClose, onArchive, isArchived }) {
 
         {letter.timestamp && (
           <p className="timestamp">
-            {letter.timestamp.toDate().toLocaleString()}
+            {typeof letter.timestamp.toDate === 'function' 
+              ? letter.timestamp.toDate().toLocaleString() 
+              : letter.timestamp.toLocaleString()}
           </p>
         )}
 

@@ -7,11 +7,48 @@ import "./SendLetter.css";
 export default function SendLetter({ user }) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [imageURLs, setImageURLs] = useState([]); // ⭐ NEW
+  const [uploading, setUploading] = useState(false); // ⭐ NEW
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
 
   const recipient = user === "Josh" ? "Avery" : "Josh";
+
+  // ⭐ CLOUDINARY UPLOAD FUNCTION
+  const uploadImages = async (files) => {
+    if (!files.length) return;
+
+    setUploading(true);
+
+    try {
+      const uploadedUrls = [];
+
+      for (let file of files) {
+        const data = new FormData();
+        data.append("file", file);
+        data.append("upload_preset", "YOUR_UPLOAD_PRESET");
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
+          {
+            method: "POST",
+            body: data
+          }
+        );
+
+        const result = await res.json();
+        uploadedUrls.push(result.secure_url);
+      }
+
+      setImageURLs((prev) => [...prev, ...uploadedUrls]);
+    } catch (err) {
+      console.error(err);
+      setErrorMessage("Image upload failed");
+    }
+
+    setUploading(false);
+  };
 
   const sendLetter = async () => {
     if (!title.trim() || !message.trim()) {
@@ -25,7 +62,7 @@ export default function SendLetter({ user }) {
         recipient,
         title,
         message,
-        imageURLs: [],
+        imageURLs, // ⭐ store images
         opened: false,
         archived: false,
         timestamp: serverTimestamp()
@@ -34,25 +71,24 @@ export default function SendLetter({ user }) {
       setSuccessMessage("Letter sent!");
       setTitle("");
       setMessage("");
+      setImageURLs([]); // reset images
       setErrorMessage("");
 
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 2000);
+      setTimeout(() => setSuccessMessage(""), 2000);
     } catch (err) {
       console.error(err);
       setErrorMessage("Error sending letter. Please try again.");
     }
   };
 
-  const doShowPreview = async () => {
+  const doShowPreview = () => {
     if (!title.trim() || !message.trim()) {
       setErrorMessage("Please fill in both title and message");
       return;
     }
-setErrorMessage("");
-     setShowPreview(true);
-      
+
+    setErrorMessage("");
+    setShowPreview(true);
   };
 
   return (
@@ -71,6 +107,7 @@ setErrorMessage("");
           </div>
         </div>
       )}
+
       <div className="send-letter-card">
         {successMessage && (
           <div className="send-letter-success">{successMessage}</div>
@@ -97,8 +134,29 @@ setErrorMessage("");
           />
         </div>
 
+        {/* ⭐ IMAGE UPLOAD UI */}
+        <div style={{ marginTop: "15px" }}>
+          <div className="send-letter-message-label">Images</div>
+
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={(e) => uploadImages(e.target.files)}
+          />
+
+          {uploading && <p>Uploading...</p>}
+
+          {/* preview selected images */}
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            {imageURLs.map((url, i) => (
+              <img key={i} src={url} width="80" alt="preview" />
+            ))}
+          </div>
+        </div>
+
         <div className="send-letter-button-group">
-          <button 
+          <button
             className="send-letter-btn send-letter-preview-btn"
             onClick={doShowPreview}
           >
@@ -110,7 +168,7 @@ setErrorMessage("");
         </div>
       </div>
 
-      {showPreview && title.trim() && message.trim() && (
+      {showPreview && (
         <Letter
           letter={{
             id: "preview",
@@ -118,9 +176,10 @@ setErrorMessage("");
             recipient,
             title,
             message,
+            imageURLs, // ⭐ pass images to preview
             timestamp: new Date(),
             opened: false,
-            archived: false,
+            archived: false
           }}
           onClose={() => setShowPreview(false)}
           onArchive={() => setShowPreview(false)}

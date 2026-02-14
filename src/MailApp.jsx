@@ -29,8 +29,8 @@ export default function MailApp({ user, logout }) {
     <div>
 
       {view !== "home" && (
-        <button onClick={() => setView("home")}>
-          ← Back to Board
+        <button className="back-to-board" onClick={() => setView("home")}>
+          ←
         </button>
       )}
 

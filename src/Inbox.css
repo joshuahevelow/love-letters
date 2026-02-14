@@ -1,0 +1,107 @@
+.inbox-container {
+  background-image: url("/CollageBackground.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.inbox-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.inbox-content {
+  max-width: 600px;
+  width: 100%;
+  max-height: 75vh;
+  background: #fffdf5;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 10;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.inbox-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+  font-family: serif;
+}
+
+.no-mail {
+  text-align: center;
+  color: #999;
+  font-size: 1.1rem;
+  margin-top: 40px;
+}
+
+.letters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.letter-item {
+  background: white;
+  border: 1px solid #e0d5c7;
+  border-radius: 8px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.letter-item:hover {
+  background: #faf8f3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.letter-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  gap: 20px;
+}
+
+.letter-title {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+  flex: 1;
+  font-family: serif;
+}
+
+.letter-date {
+  font-size: 0.9rem;
+  color: #999;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.letter-from {
+  color: #666;
+  margin: 0;
+  font-size: 0.95rem;
+}

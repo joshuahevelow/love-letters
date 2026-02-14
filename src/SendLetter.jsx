@@ -31,6 +31,7 @@ const [message, setMessage] = useState("");
         message,
         imageURLs: imageURL ? [imageURL] : [],
         opened: false,
+        archived: false,
         timestamp: serverTimestamp()
       });
 

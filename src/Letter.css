@@ -12,19 +12,19 @@
   position: fixed;
   top: 0;
   left: 0;
-
   width: 100vw;
   height: 100vh;
-
-  background: rgba(0,0,0,0.5);
-
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .letter-container {
-  background: #fffdf5;
+  background-image: url("/paperTexture.png");
+  background-size: auto;
+  background-color: #fffdf5;
   padding: 40px;
   width: 500px;
 
@@ -44,6 +44,44 @@
   background: none;
   font-size: 20px;
   cursor: pointer;
+}
+
+.archive-btn {
+  position: absolute;
+  left: 15px;
+  top: 10px;
+  padding: 8px 16px;
+  background-color: #8b7355;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.archive-btn:hover {
+  background-color: #6b5344;
+}
+
+.delete-btn-letter {
+  position: absolute;
+  left: 15px;
+  top: 10px;
+  padding: 8px 16px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn-letter:hover {
+  background-color: #c9302c;
 }
 
 .timestamp {

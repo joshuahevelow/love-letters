@@ -7,18 +7,46 @@ import {
   where,
   onSnapshot,
   updateDoc,
-  doc
+  doc,
+  orderBy,
+  getDocs
 } from "firebase/firestore";
+import "./Inbox.css";
 
 export default function Inbox({ user }) {
   const [letters, setLetters] = useState([]);
   const [selectedLetter, setSelectedLetter] = useState(null);
 
+  // Fix old letters that don't have archived field
+  useEffect(() => {
+    const fixOldLetters = async () => {
+      try {
+        const q = query(
+          collection(db, "letters"),
+          where("recipient", "==", user)
+        );
+        const snapshot = await getDocs(q);
+        
+        snapshot.docs.forEach(doc => {
+          const data = doc.data();
+          if (!("archived" in data)) {
+            updateDoc(doc.ref, { archived: false });
+          }
+        });
+      } catch (error) {
+        console.error("Error fixing old letters:", error);
+      }
+    };
+
+    fixOldLetters();
+  }, [user]);
+
   useEffect(() => {
     const q = query(
       collection(db, "letters"),
       where("recipient", "==", user),
-      where("opened", "==", false)
+      where("archived", "==", false),
+      orderBy("timestamp", "desc")
     );
 
     const unsub = onSnapshot(q, (snapshot) => {
@@ -36,34 +64,64 @@ export default function Inbox({ user }) {
     setSelectedLetter(letter);
 
     await updateDoc(doc(db, "letters", letter.id), {
-      opened: true
+      opened: true,
+      archived: false
+    });
+  };
+
+  const archiveLetter = async (letterId) => {
+    try {
+      await updateDoc(doc(db, "letters", letterId), {
+        archived: true
+      });
+      console.log("Letter archived successfully");
+      setSelectedLetter(null);
+    } catch (error) {
+      console.error("Error archiving letter:", error);
+      alert("Failed to archive letter. Please try again.");
+    }
+  };
+
+  const formatDate = (timestamp) => {
+    if (!timestamp) return "";
+    const date = timestamp.toDate();
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: date.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined
     });
   };
 
   return (
-    <div>
-      <h3>Inbox</h3>
+    <div className="inbox-container">
+      <div className="inbox-content">
+        <h2 className="inbox-title">Inbox</h2>
 
-      {letters.length === 0 && <p>No mail</p>}
+        {letters.length === 0 && <p className="no-mail">No new mail</p>}
 
-      {letters.map((letter) => (
-        <div key={letter.id}>
-          <p><strong>{letter.title}</strong></p>
-          <p>From: {letter.sender}</p>
-
-          {letter.imageURLs?.map((url) => (
-            <img key={url} src={url} width="150" />
+        <div className="letters-list">
+          {letters.map((letter) => (
+            <div
+              key={letter.id}
+              className="letter-item"
+              onClick={() => openLetter(letter)}
+            >
+              <div className="letter-item-header">
+                <h3 className="letter-title">{letter.title}</h3>
+                <span className="letter-date">{formatDate(letter.timestamp)}</span>
+              </div>
+              <p className="letter-from">From: {letter.sender}</p>
+            </div>
           ))}
-
-          <button onClick={() => openLetter(letter)}>
-            Open
-          </button>
         </div>
-      ))}
+      </div>
+
       {selectedLetter && (
         <Letter
           letter={selectedLetter}
           onClose={() => setSelectedLetter(null)}
+          onArchive={() => archiveLetter(selectedLetter.id)}
+          isArchived={false}
         />
       )}
     </div>

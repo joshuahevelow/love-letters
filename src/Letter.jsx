@@ -1,6 +1,6 @@
 import "./Letter.css";
 
-export default function Letter({ letter, onClose }) {
+export default function Letter({ letter, onClose, onArchive, isArchived }) {
   if (!letter) return null;
 
   return (
@@ -11,6 +11,16 @@ export default function Letter({ letter, onClose }) {
         <button className="close-btn" onClick={onClose}>
           ✕
         </button>
+
+        {isArchived ? (
+          <button className="delete-btn-letter" onClick={onArchive}>
+            Delete
+          </button>
+        ) : (
+          <button className="archive-btn" onClick={onArchive}>
+            Archive
+          </button>
+        )}
 
         <h2>{letter.title}</h2>
 

@@ -5,6 +5,8 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 export default function SendLetter({ user }) {
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
+  const [title, setTitle] = useState("");
+const [message, setMessage] = useState("");
 
   const recipient = user === "josh" ? "her" : "josh";
 
@@ -25,7 +27,8 @@ export default function SendLetter({ user }) {
       await addDoc(collection(db, "letters"), {
         sender: user,
         recipient,
-        text,
+        title,
+        message,
         imageURLs: imageURL ? [imageURL] : [],
         opened: false,
         timestamp: serverTimestamp()
@@ -43,10 +46,16 @@ export default function SendLetter({ user }) {
     <div>
       <h3>Send Letter</h3>
 
+      <input
+        placeholder="Letter title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+
       <textarea
-        placeholder="Write message..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        placeholder="Write your message..."
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
       />
 
       <input

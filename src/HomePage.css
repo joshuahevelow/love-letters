@@ -1,0 +1,50 @@
+.corkboard {
+  height: 100vh;
+  width: 100vw;
+
+  /* your cork board background */
+  background-image: url("/corkboard.png");
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 2 rows x 3 columns */
+.polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  column-gap: 15vw;
+  row-gap: 80px;
+}
+
+/* polaroid styling */
+.polaroid {
+  width: 15vw;
+  transition: transform 0.2s ease;
+}
+
+/* random rotations for static polaroids */
+.polaroid:not(.clickable):nth-child(1) {
+  transform: rotate(-4.5deg);
+}
+
+.polaroid:not(.clickable):nth-child(3) {
+  transform: rotate(3.8deg);
+}
+
+.polaroid:not(.clickable):nth-child(5) {
+  transform: rotate(-2.9deg);
+}
+
+/* hover effect */
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.05) rotate(2deg);
+}

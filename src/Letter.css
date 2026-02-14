@@ -1,0 +1,52 @@
+.meta {
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.letter-text {
+  white-space: pre-wrap; /* preserves line breaks */
+  line-height: 1.7;
+}
+
+.letter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.letter-container {
+  background: #fffdf5;
+  padding: 40px;
+  width: 500px;
+
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+  position: relative;
+
+  font-family: serif;
+}
+
+.close-btn {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.timestamp {
+  color: gray;
+  font-size: 0.9rem;
+}

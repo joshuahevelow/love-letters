@@ -41,17 +41,18 @@
 
 .inbox-title {
   font-size: 2rem;
-  color: #333;
+  color: black;
   margin-bottom: 30px;
   text-align: center;
-  font-family: serif;
+  font-family: Verdana, sans-serif;
 }
 
 .no-mail {
   text-align: center;
-  color: #999;
+  color: black;
   font-size: 1.1rem;
   margin-top: 40px;
+  font-family: Verdana, sans-serif;
 }
 
 .letters-list {
@@ -86,22 +87,24 @@
 
 .letter-title {
   font-size: 1.1rem;
-  color: #333;
+  color: black;
   margin: 0;
   font-weight: 600;
   flex: 1;
-  font-family: serif;
+  font-family: "Verdana", sans-serif;
 }
 
 .letter-date {
   font-size: 0.9rem;
-  color: #999;
+  color: black;
   flex-shrink: 0;
   white-space: nowrap;
+  font-family: "Courier New", monospace;
 }
 
 .letter-from {
-  color: #666;
+  color: black;
   margin: 0;
   font-size: 0.95rem;
+  font-family: Verdana, sans-serif;
 }

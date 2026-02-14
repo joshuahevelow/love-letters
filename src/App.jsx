@@ -10,18 +10,17 @@ function App() {
     setUser(null);
   };
 
-  if (!user) {
-    return (
-      <UserSelect
-        setUser={(u) => {
-          localStorage.setItem("user", u);
-          setUser(u);
-        }}
-      />
-    );
-  }
-
-  return <MailApp user={user} logout={logout} />;
+  return (
+    <MailApp
+      user={user}
+      setUser={(u) => {
+        if (u) localStorage.setItem("user", u);
+        else localStorage.removeItem("user");
+        setUser(u);
+      }}
+      logout={logout}
+    />
+  );
 }
 
 export default App;

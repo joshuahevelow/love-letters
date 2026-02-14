@@ -8,7 +8,7 @@ export default function SendLetter({ user }) {
   const [title, setTitle] = useState("");
 const [message, setMessage] = useState("");
 
-  const recipient = user === "josh" ? "her" : "josh";
+  const recipient = user === "Josh" ? "Avery" : "Josh";
 
   const sendLetter = async () => {
     try {

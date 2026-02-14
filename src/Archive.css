@@ -41,17 +41,18 @@
 
 .archive-title {
   font-size: 2rem;
-  color: #333;
+  color: black;
   margin-bottom: 30px;
   text-align: center;
-  font-family: serif;
+  font-family: Verdana, sans-serif;
 }
 
 .no-letters {
   text-align: center;
-  color: #999;
+  color: black;
   font-size: 1.1rem;
   margin-top: 40px;
+  font-family: Verdana, sans-serif;
 }
 
 .archived-letters {
@@ -85,20 +86,22 @@
 
 .letter-title {
   font-size: 1.1rem;
-  color: #333;
+  color: black;
   margin: 0 0 8px 0;
   font-weight: 600;
-  font-family: serif;
+  font-family: "Verdana", sans-serif;
 }
 
 .letter-from {
-  color: #666;
+  color: black;
   margin: 0 0 6px 0;
   font-size: 0.95rem;
+  font-family: Verdana, sans-serif;
 }
 
 .letter-date {
-  color: #999;
+  color: black;
   margin: 0;
   font-size: 0.85rem;
+  font-family: "Courier New", monospace;
 }

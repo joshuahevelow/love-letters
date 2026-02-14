@@ -66,9 +66,17 @@ export default function Archive({ user }) {
     if (!confirm("Delete this letter permanently?")) return;
 
     try {
+      // Remove from UI immediately for instant feedback
+      setLetters(letters.filter(l => l.id !== id));
+      if (selectedLetter?.id === id) {
+        setSelectedLetter(null);
+      }
+      
+      // Update database
       await deleteDoc(doc(db, "letters", id));
     } catch (err) {
       console.error(err);
+      alert("Failed to delete letter. Please try again.");
     }
   };
 
@@ -102,16 +110,14 @@ export default function Archive({ user }) {
           {letters.map((letter) => (
             <div
               key={letter.id}
-              className="archived-letter-item"
+              className="letter-item"
               onClick={() => openLetter(letter)}
             >
-              <div className="letter-info">
+              <div className="letter-item-header">
                 <h3 className="letter-title">{letter.title}</h3>
-                <p className="letter-from">From: {letter.sender}</p>
-                <p className="letter-date">
-                  {formatDate(letter.timestamp)}
-                </p>
+                <span className="letter-date">{formatDate(letter.timestamp)}</span>
               </div>
+              <p className="letter-from">From: {letter.sender}</p>
             </div>
           ))}
         </div>

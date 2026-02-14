@@ -25,7 +25,7 @@ export default function Letter({ letter, onClose, onArchive, isArchived }) {
         <h2>{letter.title}</h2>
 
         <p className="meta">
-          From: {letter.sender}
+          From: <span className="sender-name">{letter.sender}</span>
         </p>
 
         {letter.timestamp && (

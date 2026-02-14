@@ -3,11 +3,11 @@ export default function UserSelect({ setUser }) {
     <div>
       <h2>Who are you?</h2>
 
-      <button onClick={() => setUser("josh")}>
+      <button onClick={() => setUser("Josh")}>
         Sign in as Josh
       </button>
 
-      <button onClick={() => setUser("her")}>
+      <button onClick={() => setUser("Avery")}>
         Sign in as Her
       </button>
     </div>

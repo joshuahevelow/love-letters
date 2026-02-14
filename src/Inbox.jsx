@@ -71,11 +71,15 @@ export default function Inbox({ user }) {
 
   const archiveLetter = async (letterId) => {
     try {
+      // Remove from UI immediately for instant feedback
+      setLetters(letters.filter(l => l.id !== letterId));
+      setSelectedLetter(null);
+      
+      // Update database
       await updateDoc(doc(db, "letters", letterId), {
         archived: true
       });
       console.log("Letter archived successfully");
-      setSelectedLetter(null);
     } catch (error) {
       console.error("Error archiving letter:", error);
       alert("Failed to archive letter. Please try again.");

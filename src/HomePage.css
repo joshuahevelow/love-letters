@@ -10,7 +10,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
+
+/* error popup */
+.error-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+}
+
+.error-popup-content {
+  background: white;
+  padding: 24px 10vw;
+  border-radius: 10px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  max-width: 380px;
+  outline: 3px solid #ffd1d6;
+}
+
+.error-popup-title {
+  font-family: Verdana, sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #D70040;
+  margin-bottom: 12px;
+}
+
+.error-popup-message {
+  font-family: Verdana, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.error-popup-btn {
+  background: #D70040;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-family: Verdana, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.error-popup-btn:hover {
+  background: #b80030;
+  transition: background 0.15s ease;
+}
+
 
 /* 2 rows x 3 columns */
 .polaroid-grid {
@@ -19,6 +78,121 @@
   gap: 60px;
   column-gap: 15vw;
   row-gap: 80px;
+  margin-top: 3vh; /* nudge grid slightly lower */
+}
+
+/* Login card */
+.login-card {
+  background: transparent;
+  padding: 10px 6px;
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  margin-top: 120px;
+}
+
+/* Title as its own white card */
+.login-title {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffd1d6;
+  color: #D70040; /* red text */
+  padding: 14px 22px;
+  border-radius: 8px;
+  outline: 3px solid white; /* pink outline */
+  font-family: Verdana, sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+  z-index: 60;
+}
+
+.login-subtitle {
+    background: white;
+  color: #D70040;
+  font-family: Verdana, sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  z-index: 59;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.login-avatars {
+  display: flex;
+  justify-content: center;
+  gap: 56px;
+}
+
+/* each avatar is its own white polaroid-like card */
+.avatar {
+  width: 30vw;
+  background: transparent;
+  padding: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.avatar img { 
+    width: 20vw; object-fit: cover; transform: rotate(10deg);}
+.avatar:nth-child(1) img {
+    transform: rotate(3deg);
+}
+.avatar:nth-child(2) img {
+    transform: rotate(-3deg);
+}
+.avatar-label { margin-top: 10px; font-family: Verdana, sans-serif; color: #333; }
+.avatar.selected img {
+  outline: 3px solid #ffb6c1;
+  box-shadow: 0 10px 30px rgba(255,182,193,0.36), 0 0 22px rgba(255,140,160,0.45);
+  transition: transform 0.12s ease, box-shadow 0.18s ease, outline 0.18s ease;
+}
+.avatar:nth-child(1).selected img {
+  transform: translateY(-8px);
+}
+.avatar:nth-child(2).selected img {
+  transform: translateY(-8px);
+}
+
+/* passcode in its own white box */
+.passcode-input {
+  width: 320px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-family: Verdana, sans-serif;
+  background: white;
+  color: #D70040;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+}
+
+.login-btn {
+  background: #D70040;
+  color: white;
+  padding: 10px 16px;
+  border: 1px solid #ffd1d6;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: Verdana, sans-serif;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.10);
+}
+
+/* place input and button side-by-side */
+.pass-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5vh;
 }
 
 /* polaroid styling */
@@ -47,4 +221,48 @@
 
 .clickable:hover {
   transform: scale(1.05) rotate(2deg);
+}
+
+/* user menu (top-left) */
+.user-menu {
+  position: fixed;
+  top: 5px;
+  left: 5px; /* shifted slightly left */
+  z-index: 1000;
+}
+
+.user-box {
+  background: #ffb6c1;
+  color: #D70040; /* brighter red */
+  padding: 8px 14px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.user-text {
+  font-family: "Verdana", sans-serif;
+  font-weight: 600;
+}
+
+.user-arrow {
+  font-size: 18px; /* larger arrow */
+  color: #D70040;
+  transition: transform 0.15s ease, font-size 0.15s ease;
+}
+.user-arrow.open { transform: rotate(180deg); }
+
+.user-dropdown {
+  margin-top: 8px;
+  background: #D70040; /* brighter red */
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  cursor: pointer;
+  font-family: "Verdana", sans-serif;
 }

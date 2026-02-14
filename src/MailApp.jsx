@@ -46,8 +46,8 @@ export default function MailApp({ user, setUser, logout }) {
   };
 
   const credentials = {
-    Josh: "muffin414",
-    Avery: "smush109"
+    Josh: import.meta.env.VITE_JOSH_PASSCODE,
+    Avery: import.meta.env.VITE_AVERY_PASSCODE
   };
 
   const tryLogin = () => {

@@ -1,72 +1,96 @@
 import { useState } from "react";
 import { db } from "./firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import "./SendLetter.css";
 
 export default function SendLetter({ user }) {
-  const [text, setText] = useState("");
-  const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
-const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const recipient = user === "Josh" ? "Avery" : "Josh";
 
   const sendLetter = async () => {
+    if (!title.trim() || !message.trim()) {
+      setErrorMessage("Please fill in both title and message");
+      return;
+    }
+
     try {
-      let imageURL = null;
-
-    //   if (image) {
-    //     const imageRef = ref(
-    //       storage,
-    //       `letters/${Date.now()}_${image.name}`
-    //     );
-
-    //     await uploadBytes(imageRef, image);
-    //     imageURL = await getDownloadURL(imageRef);
-    //   }
-
       await addDoc(collection(db, "letters"), {
         sender: user,
         recipient,
         title,
         message,
-        imageURLs: imageURL ? [imageURL] : [],
+        imageURLs: [],
         opened: false,
         archived: false,
         timestamp: serverTimestamp()
       });
 
-      setText("");
-      setImage(null);
-      alert("Letter sent!");
+      setSuccessMessage("Letter sent!");
+      setTitle("");
+      setMessage("");
+      setErrorMessage("");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 2000);
     } catch (err) {
       console.error(err);
+      setErrorMessage("Error sending letter. Please try again.");
     }
   };
 
   return (
-    <div>
-      <h3>Send Letter</h3>
+    <div className="send-letter-container">
+      {errorMessage && (
+        <div className="error-popup">
+          <div className="error-popup-content">
+            <div className="error-popup-title">⚠️ Error</div>
+            <div className="error-popup-message">{errorMessage}</div>
+            <button
+              className="error-popup-btn"
+              onClick={() => setErrorMessage("")}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+      <div className="send-letter-card">
+        {successMessage && (
+          <div className="send-letter-success">{successMessage}</div>
+        )}
 
-      <input
-        placeholder="Letter title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        <div>
+          <div className="send-letter-title-label">Title</div>
+          <input
+            className="send-letter-title-input"
+            type="text"
+            placeholder="Enter a title..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
 
-      <textarea
-        placeholder="Write your message..."
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+        <div>
+          <div className="send-letter-message-label">Message</div>
+          <textarea
+            className="send-letter-message-input"
+            placeholder="Write your message here..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </div>
 
-      <input
-        type="file"
-        onChange={(e) => setImage(e.target.files[0])}
-      />
-
-      <button onClick={sendLetter}>
-        Send
-      </button>
+        <div className="send-letter-button-group">
+          <button className="send-letter-btn" onClick={sendLetter}>
+            Send Letter
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

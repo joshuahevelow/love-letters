@@ -10,13 +10,15 @@ import {
   doc,
   orderBy,
   updateDoc,
-  getDocs
+  getDocs,
+  addDoc
 } from "firebase/firestore";
 import "./Archive.css";
 
 export default function Archive({ user }) {
   const [letters, setLetters] = useState([]);
   const [selectedLetter, setSelectedLetter] = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(null); // {id: string}
 
   // Fix old letters that don't have archived field marked as true
   useEffect(() => {
@@ -63,17 +65,46 @@ export default function Archive({ user }) {
   }, [user]);
 
   const deleteLetter = async (id) => {
-    if (!confirm("Delete this letter permanently?")) return;
-
     try {
+      // Get the letter data before deleting
+      const letterDoc = await getDocs(query(
+        collection(db, "letters"),
+        where("__name__", "==", id)
+      ));
+      
+      let letterData = null;
+      letterDoc.docs.forEach(doc => {
+        if (doc.id === id) {
+          letterData = doc.data();
+        }
+      });
+
+      // If we couldn't find it in the query, fetch it directly
+      if (!letterData) {
+        const docRef = doc(db, "letters", id);
+        const docSnap = await getDocs(query(collection(db, "letters"), where("__name__", "==", id)));
+        // Simpler approach: just add the current letter from state
+        letterData = letters.find(l => l.id === id);
+      }
+
       // Remove from UI immediately for instant feedback
       setLetters(letters.filter(l => l.id !== id));
       if (selectedLetter?.id === id) {
         setSelectedLetter(null);
       }
-      
-      // Update database
+
+      // Add to deleted letters collection as backup
+      if (letterData) {
+        await addDoc(collection(db, "deletedLetters"), {
+          ...letterData,
+          deletedAt: new Date(),
+          originalId: id
+        });
+      }
+
+      // Delete from letters collection
       await deleteDoc(doc(db, "letters", id));
+      setDeleteConfirm(null);
     } catch (err) {
       console.error(err);
       alert("Failed to delete letter. Please try again.");
@@ -101,6 +132,28 @@ export default function Archive({ user }) {
 
   return (
     <div className="archive-container">
+      {deleteConfirm && (
+        <div className="error-popup">
+          <div className="error-popup-content">
+            <div className="error-popup-title">⚠️ Confirm Delete</div>
+            <div className="error-popup-message">Delete this letter permanently? It will be backed up, but removed from your archive.</div>
+            <div className="error-popup-buttons">
+              <button
+                className="error-popup-btn"
+                onClick={() => deleteLetter(deleteConfirm.id)}
+              >
+                Delete
+              </button>
+              <button
+                className="error-popup-btn error-popup-cancel-btn"
+                onClick={() => setDeleteConfirm(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="archive-content">
         <h2 className="archive-title">Archive</h2>
 
@@ -128,8 +181,7 @@ export default function Archive({ user }) {
           letter={selectedLetter}
           onClose={() => setSelectedLetter(null)}
           onArchive={() => {
-            deleteLetter(selectedLetter.id);
-            setSelectedLetter(null);
+            setDeleteConfirm({ id: selectedLetter.id });
           }}
           isArchived={true}
         />

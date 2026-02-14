@@ -21,6 +21,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  overflow-y: auto;
   z-index: 1000;
 }
 
@@ -30,13 +33,14 @@
   background-color: #fffdf5;
   padding: 40px;
   width: 500px;
-
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-
   position: relative;
-
   color: black;
+  flex-shrink: 0;
 }
 
 .letter-container h2 {
@@ -53,6 +57,7 @@
   background: none;
   font-size: 20px;
   cursor: pointer;
+  color: black;
 }
 
 .archive-btn {

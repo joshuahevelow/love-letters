@@ -105,3 +105,19 @@
   font-size: 0.85rem;
   font-family: "Courier New", monospace;
 }
+
+/* delete confirmation popup styles */
+.error-popup-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.error-popup-cancel-btn {
+  background: #d0d0d0;
+  color: #333;
+}
+
+.error-popup-cancel-btn:hover {
+  background: #b8b8b8;
+}

@@ -16,39 +16,39 @@ export default function SendLetter({ user }) {
   const recipient = user === "Josh" ? "Avery" : "Josh";
 
   // ⭐ CLOUDINARY UPLOAD FUNCTION
-  const uploadImages = async (files) => {
-    if (!files.length) return;
+  // const uploadImages = async (files) => {
+  //   if (!files.length) return;
 
-    setUploading(true);
+  //   setUploading(true);
 
-    try {
-      const uploadedUrls = [];
+  //   try {
+  //     const uploadedUrls = [];
 
-      for (let file of files) {
-        const data = new FormData();
-        data.append("file", file);
-        data.append("upload_preset", "YOUR_UPLOAD_PRESET");
+  //     for (let file of files) {
+  //       const data = new FormData();
+  //       data.append("file", file);
+  //       data.append("upload_preset", "YOUR_UPLOAD_PRESET");
 
-        const res = await fetch(
-          "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
-          {
-            method: "POST",
-            body: data
-          }
-        );
+  //       const res = await fetch(
+  //         "https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload",
+  //         {
+  //           method: "POST",
+  //           body: data
+  //         }
+  //       );
 
-        const result = await res.json();
-        uploadedUrls.push(result.secure_url);
-      }
+  //       const result = await res.json();
+  //       uploadedUrls.push(result.secure_url);
+  //     }
 
-      setImageURLs((prev) => [...prev, ...uploadedUrls]);
-    } catch (err) {
-      console.error(err);
-      setErrorMessage("Image upload failed");
-    }
+  //     setImageURLs((prev) => [...prev, ...uploadedUrls]);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setErrorMessage("Image upload failed");
+  //   }
 
-    setUploading(false);
-  };
+  //   setUploading(false);
+  // };
 
   const sendLetter = async () => {
     if (!title.trim() || !message.trim()) {
@@ -134,7 +134,7 @@ export default function SendLetter({ user }) {
           />
         </div>
 
-        {/* ⭐ IMAGE UPLOAD UI */}
+        {/* ⭐ IMAGE UPLOAD UI
         <div style={{ marginTop: "15px" }}>
           <div className="send-letter-message-label">Images</div>
 
@@ -147,13 +147,13 @@ export default function SendLetter({ user }) {
 
           {uploading && <p>Uploading...</p>}
 
-          {/* preview selected images */}
+          {/* preview selected images
           <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
             {imageURLs.map((url, i) => (
               <img key={i} src={url} width="80" alt="preview" />
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div className="send-letter-button-group">
           <button

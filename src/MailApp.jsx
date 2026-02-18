@@ -87,7 +87,7 @@ export default function MailApp({ user, setUser, logout }) {
           </div>
         )}
         <div className="login-card">
-          <div className="login-title">I love Avery!</div>
+          <div className="login-title">Love Letters</div>
           <div className="login-subtitle">Select user:</div>
 
           <div className="login-avatars">
